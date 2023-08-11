@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>WebStreamslol</title>
+    <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet">
+    <script src="https://vjs.zencdn.net/7.15.4/video.js"></script>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        video {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .popup {
+            position: fixed;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #272727;
+            border: 1px solid #ccc;
+            z-index: 9999;
+        }
+
+    </style>
+</head>
+<body>
+    <video id="my-video" class="video-js vjs-default-skin" controls autoplay>
+        <source src="https://www022.vipanicdn.net/streamhls/7244984011002ee29dc294666636b688/ep.1.1677610814.1080.m3u8" type="application/x-mpegURL">
+        Your browser does not support the video tag.
+      </video>
+
+      <div id="popup" class="popup">
+        <h2>Tips:</h2>
+        <p>Clicking the page will activate the video</p>
+        <p>Click once for pause/resume</p>
+        <p>Double Click for Fullscreen</p>
+        <p>Controls are visible when Fullscreen is active</p>
+        <p>The last seconds of the video leads to another video.</p>
+    </div>
+
+<script>
+    const videoPlayer = videojs('my-video', {}, function () {
+            const videoSources = [
+                'https://www013.vipanicdn.net/streamhls/7244984011002ee29dc294666636b688/ep.2.1677608308.1080.m3u8',
+                'https://www012.vipanicdn.net/streamhls/7244984011002ee29dc294666636b688/ep.3.1677608232.1080.m3u8',
+                'https://www011.vipanicdn.net/streamhls/7244984011002ee29dc294666636b688/ep.4.1677608264.1080.m3u8',
+                'https://www016.vipanicdn.net/streamhls/7244984011002ee29dc294666636b688/ep.5.1677608172.1080.m3u8',
+                'https://www011.vipanicdn.net/streamhls/7244984011002ee29dc294666636b688/ep.6.1677608236.1080.m3u8',
+                'https://www008.vipanicdn.net/streamhls/7244984011002ee29dc294666636b688/ep.7.1677592768.1080.m3u8',
+                'https://www021.vipanicdn.net/streamhls/7244984011002ee29dc294666636b688/ep.8.1677704248.1080.m3u8',
+                'https://www016.vipanicdn.net/streamhls/7244984011002ee29dc294666636b688/ep.9.1677608296.1080.m3u8',
+                'https://www027.vipanicdn.net/streamhls/7244984011002ee29dc294666636b688/ep.10.1677611011.1080.m3u8',
+                'https://www002.vipanicdn.net/streamhls/7244984011002ee29dc294666636b688/ep.11.1677592138.1080.m3u8',
+                'https://www024.vipanicdn.net/streamhls/7244984011002ee29dc294666636b688/ep.12.1677609939.1080.m3u8',
+                'https://www021.vipanicdn.net/streamhls/7244984011002ee29dc294666636b688/ep.13.1677706124.1080.m3u8'
+            ];
+
+            let videoQueue = [...videoSources];
+            
+            this.on('ended', playNextVideo);
+
+            function playNextVideo() {
+                if (videoQueue.length > 0) {
+                    const nextVideoSource = videoQueue.shift();
+                    videoPlayer.src({
+                        type: 'application/x-mpegURL',
+                        src: nextVideoSource
+                    });
+                    videoPlayer.play();
+                }
+            }
+        });
+
+    document.addEventListener('DOMContentLoaded', function() {
+            var myPlayer = videojs('my-video');
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+            var popup = document.getElementById("popup");
+
+            setTimeout(function() {
+                popup.style.display = "none";
+            }, 10000);
+    });
+</script>
+</body>
+</html>
