@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M3U8 Video Player</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap" rel="stylesheet">
+    <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/7.15.4/video.js"></script>
+    <style>
+        body {
+            font-family: 'Anonymous Pro', monospace;
+            background-color: black;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #container {
+            max-width: 800px;
+            margin: 0 10px;
+            width: 100%;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #descriptionContainer {
+            max-width: 800px;
+            width: 100%;
+            margin: 20px 10px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-family: 'Anonymous Pro', monospace;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #videoPlayer {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>M3U8 Video Player</h1>
+        
+        <label for="m3u8Link">Enter M3U8 Link:</label>
+        <input type="text" id="m3u8Link" placeholder="Enter M3U8 link here">
+        <button id="playButton">Play</button>
+        
+        <div id="videoPlayer"></div>
+    </div>
+
+    <div id="descriptionContainer">
+        <h2>M3U8 Player by V1P3R-CODE</h2>
+        <p>This where you play m3u8 format video, No Ads, No Tracking.</p>
+    </div>
+    
+    <script>
+        document.getElementById("playButton").addEventListener("click", function() {
+            const m3u8Link = document.getElementById("m3u8Link").value;
+            
+            if (m3u8Link.trim() === "") {
+                alert("Please enter a valid M3U8 link.");
+                return;
+            }
+            
+            const videoPlayerDiv = document.getElementById("videoPlayer");
+            videoPlayerDiv.innerHTML = `<video-js id="my-video" class="vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="360">
+                                            <source src="${m3u8Link}" type="application/x-mpegURL">
+                                            Please Wait......
+                                        </video-js>`;
+
+            const player = videojs('my-video');
+            player.play();
+        });
+    </script>
+</body>
+</html>
