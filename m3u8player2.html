@@ -30,6 +30,7 @@
         }
 
         #m3u8Link {
+            font-family: 'Anonymous Pro', monospace;
             width: auto;
             padding: 10px;
             margin-bottom: 10px;
@@ -37,8 +38,9 @@
             border-radius: 5px;
         }
 
-        #playButton {
-            width: 100%;
+        #playButton, #resetButton {
+            font-family: 'Anonymous Pro', monospace;
+            width: auto;
             padding: 10px;
             background-color: black;
             color: white;
@@ -80,6 +82,7 @@
         <div class="input-container">
             <input type="text" id="m3u8Link" placeholder="Enter M3U8 link here">
             <button id="playButton">Play</button>
+            <button id="resetButton">Reset</button>
         </div>
         
         <div id="videoPlayer"></div>
@@ -106,6 +109,10 @@
 
             const player = videojs('my-video');
             player.play();
+        });
+
+        document.getElementById("resetButton").addEventListener("click", function() {
+            location.reload();
         });
     </script>
 </body>
