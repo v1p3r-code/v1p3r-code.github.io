@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="https://i.imgur.com/1Xy3DRV.png" type="image/x-icon">
-    <meta name="description" content="m3u8 format url player by v1p3r, simple.">
-    <meta property="og:description" content="m3u8 format url player by v1p3r, simple.">
-    <meta property="og:title" content="M3U8 Link Player">
+    <meta name="description" content="M3U8 Link Player by v1p3r-code">
+    <meta property="og:description" content="v1p3r-code projects">
+    <meta property="og:title" content="M3U8 Link Player by v1p3r-code">
     <meta property="og:image" content="https://i.imgur.com/NcXLzNW.png">
     <title>M3U8 Video Player</title>
     <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap" rel="stylesheet">
@@ -17,6 +17,7 @@
             font-family: 'Anonymous Pro', monospace;
             background-color: black;
             margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -77,6 +78,81 @@
         .input-container {
             display: flex;
         }
+
+        .bottom-right-button {
+            bottom: 10px;
+            right: 10px;
+            width: 50px;
+            height: 50px;
+            position: fixed;
+            opacity: 0;
+            cursor: default;
+        }
+
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -370px;
+            width: 320px;
+            height: 100%;
+            background-color: #28282B;
+            color: white;
+            padding: 20px;
+            transition: right 0.3s;
+            overflow: auto;
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        #searchInput {
+            font-family: 'Anonymous Pro', monospace;
+            flex-grow: 1;
+            padding: 10px;
+            margin-right: 10px;
+        }
+
+        #searchButton {
+            font-family: 'Anonymous Pro', monospace;
+            padding: 10px;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .results-container .result {
+            background-color: #f0f0f0; 
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            color: black;
+        }
+        .results-container .result h2 {
+            display: inline; 
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px; 
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #d61a3c;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -87,6 +163,19 @@
             window.location.href = 'https://v1p3r-code.github.io/m3u8player2';
         }
     </script>
+    
+    <div class="sidebar" id="sidebar">
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button id="searchButton">Search</button>
+        </div>
+        <div class="results-container">
+            <!-- Search results will appear here -->
+        </div>
+        <h5>NOTE</h5>
+        <h6>If the link shorterner redirects to a m3u8 link or file it still works.</h6>
+        <h6>.-. . --.- ..- . ... - ..--.. --..-- / -.-. .-.. .. -.-. -.- / -... --- - - --- -- / .-. .. --. .... -</h6>
+    </div>
     <div id="container">
         <h1>M3U8 Video Player</h1>
         
@@ -100,9 +189,13 @@
 
     <div id="descriptionContainer">
         <h2>M3U8 Player by V1P3R-CODE</h2>
-        <p>This where you play m3u8 format video url, No Ads, No Tracking.</p>
+        <p>This where you play m3u8 format video, No Ads, No Tracking.</p>
+        <h5>Example:</h5>
+        <p>.--. .-. . ... ... / . ... -.-. .- .--. .</p>
     </div>
-    
+
+    <a href="https://discord.gg/4zrpfGVKab" target="_blank" class="bottom-right-button"></a>
+
     <script>
         document.getElementById("playButton").addEventListener("click", function() {
             const m3u8Link = document.getElementById("m3u8Link").value;
@@ -115,7 +208,6 @@
             const videoPlayerDiv = document.getElementById("videoPlayer");
             videoPlayerDiv.innerHTML = `<video-js id="my-video" class="vjs-default-skin vjs-big-play-centered" controls preload="auto" width="640" height="360">
                                             <source src="${m3u8Link}" type="application/x-mpegURL">
-                                            click the reset button........
                                         </video-js>`;
 
             const player = videojs('my-video');
@@ -125,6 +217,46 @@
         document.getElementById("resetButton").addEventListener("click", function() {
             location.reload();
         });
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape") {
+                var sidebar = document.getElementById("sidebar");
+                sidebar.classList.toggle("active");
+            }
+        });
+        
+        document.getElementById("searchButton").addEventListener("click", performSearch);
+
+        document.getElementById("searchInput").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                performSearch();
+            }
+        });
+
+        function performSearch() {
+            var searchInput = document.getElementById("searchInput").value.toLowerCase();
+            var resultsContainer = document.querySelector(".results-container");
+
+            var data = [
+                { title: "Spider-Man: Across the Spider-Verse", description: "https://tinyurl.com/spatspvVIPER", description2: "Quality: HD, Expires: 11/12/23" },
+                { title: "Transformers: Rise of the beasts", description: "https://tinyurl.com/nightymare2", description2: "Quality: HD, Expires: 4/11/24" },
+            ];
+
+            resultsContainer.innerHTML = '';
+
+            data.forEach(function(item) {
+                if (item.title.toLowerCase().includes(searchInput)) {
+                    var resultItem = document.createElement("div");
+                    resultItem.classList.add("result");
+                    resultItem.innerHTML = `
+                        <h5>${item.title}</h5>
+                        <p>${item.description}</p>
+                        <h6>${item.description2}</h6>
+                    `;
+                    resultsContainer.appendChild(resultItem);
+                }
+            });
+        }
     </script>
 </body>
 </html>
